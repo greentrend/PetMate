@@ -57,13 +57,15 @@ class MapScreen extends Component {
                 onRegionChangeComplete={this.onRegionChangeComplete}
                 />
                 <View  style={styles.buttonContainer} >
-                    <Button 
+                    <RoundButton style={styles.heart_button} icon="heart" color="red" />
+                    {/* <Button 
                         large
                         type="outline"
                         title="Search This Area"
                         icon={{ name: 'search' }}
                         onPress={this.onButtonPress}
-                    />
+                    /> */}
+                    <RoundButton style={styles.pet_button} icon="paw" color="brown"/>
                 </View>
             </View>
         )
@@ -73,12 +75,29 @@ class MapScreen extends Component {
 const styles = {
     buttonContainer: {
         position: 'absolute', //change to absolute to make it clear , Relative to show
-        margin: 0,
+        // marginLeft: 15,
+        // marginBottom: 15,
+      //  flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
         left: 0,
+        bottom: 0,
         right: 0,
-        marginBottom: 10,
-        marginTop: 30
+        margin: 15,
+         
+        
+    },
+    heart_button: {
+        alignContent: 'flex-start',
+        // borderWidth: 1,
+        // padding: 25,
+        // borderColor: 'black'
+    }, 
+    pet_button: {
+        alignContent: 'flex-end'
     }
+
 }
 
 export default connect(null, actions)(MapScreen);
