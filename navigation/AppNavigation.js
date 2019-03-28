@@ -14,6 +14,7 @@ import DeckScreen from "../screens/DeckScreen";
 import MapScreen from "../screens/MapScreen";
 import ReviewScreen from "../screens/ReviewScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import UserProfile from "../screens/UserProfile";
 
 const AppNavigator = createBottomTabNavigator({
   welcome: { screen: WelcomeScreen, navigationOptions: { tabBarVisible: false }},
@@ -35,17 +36,17 @@ const AppNavigator = createBottomTabNavigator({
         screen: DeckScreen, 
         navigationOptions: { 
           tabBarVisible: true, 
-          title: 'Jobs', 
+          title: 'Matchmaker', 
           tabBarIcon: ({ focused, tintColor }) => {
-            return <Icon name="description" size={30} color={tintColor} />
+            return <Icon name="favorite" size={30} color={tintColor} />
           }
         } 
       },
       review:{
         navigationOptions: {
-          title: 'Review Jobs',
+          title: 'Matches',
           tabBarIcon: ({ tintColor }) => {
-            return (<Icon name='favorite' size={30} color={tintColor} />)
+            return (<Icon type="material-community" name='dog' size={30} color={tintColor} />)
           }
         },
         screen: createStackNavigator({
@@ -59,6 +60,16 @@ const AppNavigator = createBottomTabNavigator({
         labelStyle: { fontSize: 12 }
       }
     })
+  },
+  user_profile: {
+    screen: UserProfile, 
+        navigationOptions: { 
+          tabBarVisible: true, 
+          title: 'User Profile', 
+           tabBarIcon: ({ focused, tintColor }) => {
+            return <Icon name="favorite" size={30} color={tintColor} />
+          }
+        } 
   }
 }, {
     navigationOptions: { 

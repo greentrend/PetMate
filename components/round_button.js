@@ -7,16 +7,18 @@ class RoundButton extends Component {
         return(
             <TouchableOpacity
                 style={{
-                    borderWidth:1,
-                    borderColor:'rgba(0,0,0,0.2)',
+                    //borderWidth:1,
+                    //borderColor:'rgba(255,255,255.2)',
                     alignItems:'center',
                     justifyContent:'center',
-                    width:100,
-                    height:100,
-                    backgroundColor:'#fff',
+                    width:70,
+                    height:70,
+                 //  backgroundColor:'#fff',
                     borderRadius:50,
                     }}
+                onPress={this.props.onPress}
                 >
+                
                 <Icon name={this.props.icon} size={50} color={this.props.color} />
             </TouchableOpacity>
         )

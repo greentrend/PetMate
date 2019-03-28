@@ -30,7 +30,8 @@ const doFacebookLogin = async (dispatch) => {
     }
 
     const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-    Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+    console.log(response);
+    //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
 
     await AsyncStorage.setItem('fb_token', token);
     dispatch({ typa: FACEBOOK_LOGIN_SUCCESS, payload: token });

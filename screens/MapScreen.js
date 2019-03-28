@@ -13,8 +13,8 @@ class MapScreen extends Component {
     state = {
         mapLoaded: false,
         region: { 
-            longitude: -122,
-            latitude: 37,
+            longitude: -80.3733,
+            latitude: 25.7574,
             longitudeDelta: 0.04,
             latitudeDelta: 0.09
         }
@@ -41,6 +41,11 @@ class MapScreen extends Component {
         });
     }
 
+    onUserButtonPress = () => {
+        console.log("USER PROFILE BUTTON PRESSED!")
+        this.props.navigation.navigate('user_profile');
+    }
+
     render() { 
         if(!this.state.mapLoaded){
             return (
@@ -56,6 +61,14 @@ class MapScreen extends Component {
                 style={{ flex: 1 }} 
                 onRegionChangeComplete={this.onRegionChangeComplete}
                 />
+                <View style={styles.user_container}>
+                  <RoundButton 
+                  style={styles.user_profile_button} 
+                  icon="user-circle-o" 
+                  type="FontAwesome" 
+                  color="black" 
+                  onPress={this.onUserButtonPress}/>
+                </View>
                 <View  style={styles.buttonContainer} >
                     <RoundButton style={styles.heart_button} icon="heart" color="red" />
                     {/* <Button 
@@ -96,6 +109,17 @@ const styles = {
     }, 
     pet_button: {
         alignContent: 'flex-end'
+    },
+    user_profile_button: {
+        top: 0,
+        left: 0,
+    },
+    user_container: {
+        position: 'absolute', //change to absolute to make it clear , Relative to show
+        alignItems: 'flex-end',
+        left: 0,
+        top: 0,
+        margin: 10,
     }
 
 }

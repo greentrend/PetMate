@@ -13,7 +13,7 @@ class ReviewScreen extends Component {
             title: 'Review Jobs', 
             headerRight: (
                 <Button 
-                title="Settings" 
+                title="Chat" 
                 type="clear"
                 onPress={ () => navigation.navigate('settings') } 
                 backgroundColor="rgba(0,0,0,0)"
