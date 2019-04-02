@@ -19,7 +19,7 @@ const JOB_QUERY_PARAMS = {
     perpage: '10',
 };
 
-const buildJobsUrl = (zip) => {
+const buildJobsUrl = () => {
     const query = qs.stringify({ ...JOB_QUERY_PARAMS });
     return `${JOB_ROOT_URL}${query}`;
 };
@@ -35,7 +35,7 @@ export const fetchJobs = (region, callback) => async (dispatch) => {
         console.log("zip: ");
         console.log(zip)    
 
-        const url = buildJobsUrl(zip);
+        const url = buildJobsUrl();
         console.log("\n ============== URL:" + url + " ==================\n");
         let { data } = await axios.get(url);
       // const data = JOB_DATA;

@@ -14,11 +14,12 @@ class MapScreen extends Component {
     state = {
         mapLoaded: false,
         region: { 
-            longitude: -80.3733,
-            latitude: 25.7574,
-            longitudeDelta: 0.04,
-            latitudeDelta: 0.09
-        }
+             longitude: 0, //-80.3733,
+             latitude: 0, // 25.7574,
+             longitudeDelta: 0.04,
+             latitudeDelta: 0.09
+        },
+        location: null
     }
 
     _getLocationAsync = async () => {
@@ -26,6 +27,8 @@ class MapScreen extends Component {
         let location = await Location.getCurrentPositionAsync({});
         console.log("User Location: ");
         console.log(location)
+        this.setState({ location });
+
     }
 
     async componentDidMount() {
@@ -76,10 +79,25 @@ class MapScreen extends Component {
                 </View>
             )
         }
+        if(!this.state.location){
+            return (<View />)
+        }
         return (
             <View style={{ flex: 1 }}>
                 <MapView 
-                region={ this.state.region }
+                initialRegion={{
+                    latitude: this.state.location.coords.latitude,
+                    longitude: this.state.location.coords.longitude,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.04
+
+                }}
+                region={{
+                    latitude: this.state.location.coords.latitude,
+                    longitude: this.state.location.coords.longitude,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.04
+                    }}
                 style={{ flex: 1 }} 
                 onRegionChangeComplete={this.onRegionChangeComplete}
                 />
@@ -93,13 +111,13 @@ class MapScreen extends Component {
                 </View>
                 <View  style={styles.buttonContainer} >
                     <RoundButton style={styles.heart_button} icon="heart" color="red" onPress={this.onHeartButtonPress}/>
-                    {/* <Button 
+                    <Button 
                         large
                         type="outline"
                         title="Search This Area"
                         icon={{ name: 'search' }}
                         onPress={this.onButtonPress}
-                    /> */}
+                    />
                     <RoundButton style={styles.pet_button} icon="paw" color="brown"/>
                 </View>
             </View>

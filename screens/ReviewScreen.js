@@ -10,7 +10,7 @@ class ReviewScreen extends Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: 'Review Jobs', 
+            title: 'Matches', 
             headerRight: (
                 <Button 
                 title="Chat" 
