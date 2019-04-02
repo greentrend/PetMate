@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import { MapView, Permissions } from 'expo';
+import Expo, { MapView, Permissions, Location } from 'expo';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
+
 
 import RoundButton from '../components/round_button';
 
@@ -20,10 +21,26 @@ class MapScreen extends Component {
         }
     }
 
+    _getLocationAsync = async () => {
+       
+        let location = await Location.getCurrentPositionAsync({});
+        console.log("User Location: ");
+        console.log(location)
+    }
+
     async componentDidMount() {
        
-        await Permissions.askAsync(Permissions.LOCATION);
-        
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+        if (status !== 'granted'){
+            console.error('Location Permission not granted');
+            return;
+        } else {
+            console.log("Location Permission granted :)")
+        }
+       
+        this._getLocationAsync();
+
        this.setState({ mapLoaded: true })
     }
 
@@ -39,6 +56,11 @@ class MapScreen extends Component {
         this.props.fetchJobs(this.state.region, () => {
             this.props.navigation.navigate('deck');
         });
+    }
+
+    onHeartButtonPress = () => {
+        console.log("Matchmaker Button Pressed!");
+        this.props.navigation.navigate('deck')
     }
 
     onUserButtonPress = () => {
@@ -70,7 +92,7 @@ class MapScreen extends Component {
                   onPress={this.onUserButtonPress}/>
                 </View>
                 <View  style={styles.buttonContainer} >
-                    <RoundButton style={styles.heart_button} icon="heart" color="red" />
+                    <RoundButton style={styles.heart_button} icon="heart" color="red" onPress={this.onHeartButtonPress}/>
                     {/* <Button 
                         large
                         type="outline"

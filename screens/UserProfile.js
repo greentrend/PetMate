@@ -5,6 +5,29 @@ import { Button } from 'react-native-elements';
 
 class UserScreen extends Component {
 
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'User Profile', 
+            headerRight: (
+                <Button 
+                title="Map" 
+                type="clear"
+                onPress={ () => navigation.navigate('map') } 
+                backgroundColor="rgba(0,0,0,0)"
+                color="rgba(0,122,255,1)"
+                />
+            ),
+            headerStyle: {
+                // marginTop: Platform.OS === 'android' ? 24 : 0
+            }, 
+            
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+        };
+       
+    };
+
 
     render() {
         return (

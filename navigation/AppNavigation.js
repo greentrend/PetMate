@@ -15,6 +15,7 @@ import MapScreen from "../screens/MapScreen";
 import ReviewScreen from "../screens/ReviewScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import UserProfile from "../screens/UserProfile";
+import StoreScreen from "../screens/StoreScreen";
 
 const AppNavigator = createBottomTabNavigator({
   welcome: { screen: WelcomeScreen, navigationOptions: { tabBarVisible: false }},
@@ -53,6 +54,15 @@ const AppNavigator = createBottomTabNavigator({
           review: { screen: ReviewScreen },
           settings: { screen: SettingsScreen, navigationOptions: { tabBarVisible: true } }
         })
+      },
+      store:{
+        navigationOptions: {
+          title: 'Store',
+          tabBarIcon: ({ tintColor }) => {
+            return (<Icon type="material-community" name='treasure-chest' size={30} color={tintColor} />)
+          }
+        },
+        screen: StoreScreen
       }
     }, {
       tabBarPosition: 'bottom',
@@ -62,9 +72,12 @@ const AppNavigator = createBottomTabNavigator({
     })
   },
   user_profile: {
-    screen: UserProfile, 
+    screen: createStackNavigator({
+      // map: { screen: MapScreen, navigationOptions: { tabBarVisible: false } },
+      user_profile: { screen: UserProfile }
+    }), 
         navigationOptions: { 
-          tabBarVisible: true, 
+          tabBarVisible: false, 
           title: 'User Profile', 
            tabBarIcon: ({ focused, tintColor }) => {
             return <Icon name="favorite" size={30} color={tintColor} />
