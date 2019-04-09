@@ -50,44 +50,68 @@ class AuthScreen extends Component {
         console.log(this.props.token)        
 
         //IF using redux, we could put the whole try/catch block into an action creator.
-        try{
-            console.log("Attempting to Sign in with provided Code... ")
 
-            const { data } = await axios.post(`${ROOT_URL}/verifyOneTimePassword`, {
-                phone: this.state.phone, code: this.state.code
-            });
-        
-            console.log("Verifying user.... Token: ")
-            console.log(data)
+        let token = await AsyncStorage.getItem('custom_token');
+        if (token) {
+            // Dispatch an action saying FB login is done
+            firebase.auth().signInWithCustomToken(token);
+            this.props.navigation.navigate('map')
+            
+        } else {
+            try{
+                console.log("Attempting to Sign in with provided Code... ")
+    
+                const { data } = await axios.post(`${ROOT_URL}/verifyOneTimePassword`, {
+                    phone: this.state.phone, code: this.state.code
+                });
+            
+                console.log("Verifying user.... Token: ")
+                console.log(data)
+    
+                // handling authentication with JWT
+                firebase.auth().signInWithCustomToken(data.token);
+                
+                await AsyncStorage.setItem('custom_token', data.token);
 
-            // handling authentication with JWT
-            firebase.auth().signInWithCustomToken(data.token);
-
-            if(data.token) {
-                this.props.navigation.navigate('map')
+                if(data.token) {
+                    this.props.navigation.navigate('map')
+                }
+    
+            }catch(err){
+                console.log('Sign in ERROR: ' + err)
             }
-
-        }catch(err){
-            console.log('Sign in ERROR: ' + err)
         }
+
+        
     }
 
     handleSignUpSubmit = async () => {
-    console.log("this.state.phone");
-    console.log(this.state.phone)
-    // [await] is waiting for the first promise to get resolved before the next line is handled. 
-    try{
-        //using await and async allows you to use the variable right after, instead of chaining the .then 
-        console.log("Creating User!")
-        await axios.post(`${ROOT_URL}/createUser`, { phone: this.state.phone })
-        console.log("Requesting one Time password...")
-        await axios.post(`${ROOT_URL}/requestOneTimePassword`, { phone: this.state.phone })
-        console.log("Password Requested!")
 
-    } catch(err){
-        console.log(err);
-    } 
+    let token = await AsyncStorage.getItem('custom_token');
+    if (token) {
+        // Dispatch an action saying FB login is done
+        firebase.auth().signInWithCustomToken(token);
+        this.props.navigation.navigate('map')
+        
+    } else {
+        console.log("this.state.phone");
+        console.log(this.state.phone)
+        // [await] is waiting for the first promise to get resolved before the next line is handled. 
+        try{
+            //using await and async allows you to use the variable right after, instead of chaining the .then 
+            console.log("Creating User!")
+            await axios.post(`${ROOT_URL}/createUser`, { phone: this.state.phone })
+            console.log("Requesting one Time password...")
+            await axios.post(`${ROOT_URL}/requestOneTimePassword`, { phone: this.state.phone })
+            console.log("Password Requested!")
     
+        } catch(err){
+            console.log(err);
+        } 
+        
+    }
+
+   
 } 
 
     render() {
