@@ -31,6 +31,7 @@ class AuthScreen extends Component {
         }
    }
 
+    
 
     handleSignInSubmit = async () => {
 
@@ -56,6 +57,7 @@ class AuthScreen extends Component {
             // Dispatch an action saying FB login is done
             firebase.auth().signInWithCustomToken(token);
             this.props.navigation.navigate('map')
+
             
         } else {
             try{
@@ -74,7 +76,7 @@ class AuthScreen extends Component {
                 await AsyncStorage.setItem('custom_token', data.token);
 
                 if(data.token) {
-                    this.props.navigation.navigate('map')
+                    this.props.navigation.navigate('user_form')
                 }
     
             }catch(err){
@@ -87,7 +89,9 @@ class AuthScreen extends Component {
 
     handleSignUpSubmit = async () => {
 
-    let token = await AsyncStorage.getItem('custom_token');
+     let token = await AsyncStorage.getItem('custom_token');
+  //  let token = await AsyncStorage.removeItem('custom_token');
+
     if (token) {
         // Dispatch an action saying FB login is done
         firebase.auth().signInWithCustomToken(token);
@@ -104,6 +108,9 @@ class AuthScreen extends Component {
             console.log("Requesting one Time password...")
             await axios.post(`${ROOT_URL}/requestOneTimePassword`, { phone: this.state.phone })
             console.log("Password Requested!")
+
+            console.log("Saving phone to AsyncStorage")
+            await AsyncStorage.setItem('phone', this.state.phone);
     
         } catch(err){
             console.log(err);
@@ -132,7 +139,7 @@ class AuthScreen extends Component {
                             <Text style={{ color: 'red'}}>{this.state.error}</Text>
                         </View>
                         <View style={{ flexDirection: 'row',justifyContent: 'center', margin: 30 }}>
-                            <Text style={{ color: 'black'}}>{this.state.phone}</Text>
+                            <Text style={{ color: 'black', fontWeight: 'bold'}}>{this.state.phone}</Text>
                         </View>
                             <Input 
                                 leftIconContainerStyle={{ marginRight: 10 }}
@@ -204,7 +211,7 @@ const styles = {
     }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth}) {
     return {token: auth.token }
 }
 

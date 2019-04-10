@@ -60,7 +60,7 @@ const doCustomLogin = async (dispatch) => {
     
     //Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
 
-    await AsyncStorage.setItem('custom_token', token);
+    await AsyncStorage.setItem('custom_token', data.token);
     dispatch({ typa: CUSTOM_LOGIN_SUCCESS, payload: token });
 
 }

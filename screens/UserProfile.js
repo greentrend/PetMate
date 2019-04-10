@@ -1,9 +1,38 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
+import * as actions from '../actions';
+
+import axios from 'axios'; // used to make network request to server endpoint
+const ROOT_URL = 'https://us-central1-petmatedb.cloudfunctions.net';
 
 class UserScreen extends Component {
+
+    state = { phone: '', name: '', email: '', zipcode: '', description: ''};
+
+    async componentDidMount() {
+        let phone = await AsyncStorage.getItem('phone');
+        console.log("fetchins user info... phone:");
+        console.log(phone)
+          
+        const { data }  = await axios.post(`${ROOT_URL}/getUserInfo`, { phone: phone } );
+           
+        const user = data.user;
+
+        //const json = await user.json();   
+        console.log("User: ")     
+        console.log(user);
+
+        this.setState({
+            phone: user.phone,
+            name: user.name,
+            email: user.email,
+            zipcode: user.zipcode,
+            description: user.description,
+        })
+    
+    }
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -32,14 +61,28 @@ class UserScreen extends Component {
     render() {
         return (
             <View styles={styles.viewStyle}>
-                <View style={styles.userContainer}>
-                    <Image source={require('../assets/user_image_default.png')} style={styles.imageStyle} />
-                    <View style={styles.userInfo}>
-                        <Text style={{marginBottom: 5}}>JOHN DOE</Text>
-                        <Text>I am a pet lover that enjoys mating different breeds. Please contact me at 954-751-1234 and lets met our pets!</Text>
+                
+                <View style={styles.container}>
+                    <View style={styles.userContainer}>
+                        <Image source={require('../assets/user_image_default.png')} style={styles.imageStyle} />
+                        <View style={styles.userInfo}>
+                            <Text style={{marginBottom: 5}}>Name: {this.state.name}</Text>
+                            <Text>Email: {this.state.email} </Text>
+                            <Text>Phone: {this.state.phone}</Text>
+                            <Text style= {{}} >Zipcode: {this.state.zipcode}</Text>
+                            <Text>Description: {this.state.description}</Text>
+                        </View>
                     </View>
-                    
+                    <Button 
+                     title="Edit" 
+                     type="clear"
+                     onPress={ () => this.props.navigation.navigate('user_form') } 
+                     backgroundColor="rgba(0,0,0,0)"
+                     color="rgba(0,122,255,1)"
+                    />
+
                 </View>
+                
                 <View style={styles.petContainer}>
                     
                 </View>
@@ -49,6 +92,9 @@ class UserScreen extends Component {
 }
 
 const styles = {
+    container: {
+        flexDirection: 'column'
+    },
     viewStyle: {
         flex: 1,
         flexDirection: 'column',
@@ -77,4 +123,9 @@ const styles = {
 
 }
 
-export default connect(null)(UserScreen);
+function mapStateToProps (state) {
+    return { user_info: state.user_info };
+}
+
+export default connect(mapStateToProps, actions)(UserScreen);
+

@@ -11,7 +11,7 @@ class Slides extends Component {
         if (index === this.props.data.length - 1) {
             return(
                 <Button 
-                    title="Sign up with Facebook!"
+                    title="Sign up!"
                     raised
                     buttonStyle={styles.buttonStyle}
                     onPress={this.props.onComplete}

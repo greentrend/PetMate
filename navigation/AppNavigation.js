@@ -19,9 +19,12 @@ import AuthScreenFacebook from "../screens/AuthScreenFacebook";
 import UserProfile from "../screens/UserProfile";
 import StoreScreen from "../screens/StoreScreen";
 
+import UserForm from '../screens/UserForm';
+
 const AppNavigator = createBottomTabNavigator({
   welcome: { screen: WelcomeScreen, navigationOptions: { tabBarVisible: false }},
   auth: { screen: AuthScreen, navigationOptions: { tabBarVisible: false } },
+  user_form: { screen: UserForm, navigationOptions: { tabBarVisible: false } },
   main: {
     navigationOptions: { tabBarVisible: false },
     screen: createBottomTabNavigator({
