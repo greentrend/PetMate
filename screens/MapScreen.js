@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import Expo, { MapView, Permissions, Location } from 'expo';
+import { MapView, Permissions, Location, Marker } from 'expo';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
 
@@ -16,10 +16,45 @@ class MapScreen extends Component {
         region: { 
              longitude: 0, //-80.3733,
              latitude: 0, // 25.7574,
-             longitudeDelta: 0.04,
-             latitudeDelta: 0.09
+             latitudeDelta: 1.00,
+             latitudeDelta: 0.09000004144488472
         },
-        location: null
+        location: null,
+        SEED_MARKERS: [
+            {
+                title: 'Dog Whisperer',
+                description: 'Silver Trail Dog Park',
+                coordinate: {
+                    longitude: -80.23996982839704,
+                    latitude: 26.085947838071064
+                }
+           
+            },
+            {
+                title: 'Doggy Dog World',
+                description: 'Hollywood Beach Dog Park',
+                coordinate: {
+                    longitude: -80.13696982839704,
+                    latitude: 26.385947838071064
+                }
+            },
+            {
+                title: 'Hipoallergenical',
+                description: 'FIU Dog Park',
+                coordinate: {
+                    longitude: -80.1796982839704,
+                    latitude: 26.186947838071064
+                }
+            },
+            {
+                title: 'Super Puppies',
+                description: 'Miami Dade Dog Park',
+                coordinate: {
+                    longitude: -80.33796982839704,
+                    latitude: 25.984947838071064
+                }
+            },
+        ]
     }
 
     _getLocationAsync = async () => {
@@ -32,6 +67,8 @@ class MapScreen extends Component {
     }
 
     async componentDidMount() {
+
+        this.index = 0;
        
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
@@ -56,15 +93,16 @@ class MapScreen extends Component {
     onButtonPress = () => {
         console.log("======= THIS.STATE.REGION: ")
         console.log(this.state.region)
-        this.props.fetchJobs(this.state.region, () => {
+        this.props.fetchPuppies(this.state.region, () => {
             this.props.navigation.navigate('deck');
         });
     }
 
     onHeartButtonPress = () => {
         console.log("Matchmaker Button Pressed!");
-        this.props.navigation.navigate('deck')
-    }
+        this.props.fetchPuppies(this.state.region, () => {
+            this.props.navigation.navigate('deck');
+        });    }
 
     onUserButtonPress = () => {
         console.log("USER PROFILE BUTTON PRESSED!")
@@ -88,19 +126,29 @@ class MapScreen extends Component {
                 initialRegion={{
                     latitude: this.state.location.coords.latitude,
                     longitude: this.state.location.coords.longitude,
-                    latitudeDelta: 0.09,
-                    longitudeDelta: 0.04
+                    latitudeDelta: 1.0,
+                    longitudeDelta: 0.05
+                    
 
                 }}
-                region={{
-                    latitude: this.state.location.coords.latitude,
-                    longitude: this.state.location.coords.longitude,
-                    latitudeDelta: 0.09,
-                    longitudeDelta: 0.04
-                    }}
                 style={{ flex: 1 }} 
                 onRegionChangeComplete={this.onRegionChangeComplete}
-                />
+                >
+                {
+                    this.state.SEED_MARKERS.map((marker, index) => {
+                        return(
+                            <MapView.Marker 
+                                key={index}
+                                coordinate={marker.coordinate}
+                                title={marker.title}
+                                description={marker.description}
+                                image={require('../assets/paw2.png')}
+                            />  
+                        )
+                    })
+                }
+                
+                </MapView>
                 <View style={styles.user_container}>
                   <RoundButton 
                   style={styles.user_profile_button} 
@@ -111,14 +159,7 @@ class MapScreen extends Component {
                 </View>
                 <View  style={styles.buttonContainer} >
                     <RoundButton style={styles.heart_button} icon="heart" color="red" onPress={this.onHeartButtonPress}/>
-                    <Button 
-                        large
-                        type="outline"
-                        title="Search This Area"
-                        icon={{ name: 'search' }}
-                        onPress={this.onButtonPress}
-                    />
-                    <RoundButton style={styles.pet_button} icon="paw" color="brown"/>
+                    {/* <RoundButton style={styles.pet_button} icon="paw" color="brown"/>  */}
                 </View>
             </View>
         )

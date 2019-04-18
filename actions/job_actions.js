@@ -39,6 +39,8 @@ export const fetchJobs = (region, callback) => async (dispatch) => {
         console.log("\n ============== URL:" + url + " ==================\n");
         let { data } = await axios.get(url);
       // const data = JOB_DATA;
+
+        
         dispatch({ type: FETCH_JOBS, payload: data });
      //   console.log(data)
         callback();
@@ -46,6 +48,80 @@ export const fetchJobs = (region, callback) => async (dispatch) => {
         console.log(err);
     }
 };
+
+// const doggies = [
+//     {
+//         breed: 'Golden Retriever',
+//         name: 'Goldie',
+//         src: require('../assets/goldie.jpg')
+//     },
+//     {
+//         breed: 'Golden Retriever',
+//         name: 'Goldie',
+//         src: require('../assets/adorable-animal-baby.jpg')
+//     },
+//     {
+//         breed: 'Golden Retriever',
+//         name: 'Goldie',
+//         src: require('../assets/goldie.jpg')
+//     },
+//     {
+//         breed: 'Golden Retriever',
+//         name: 'Goldie',
+//         src: require('../assets/goldie.jpg')
+//     },
+//     {
+//         breed: 'Golden Retriever',
+//         name: 'Goldie',
+//         src: require('../assets/goldie.jpg')
+//     }
+// ]
+
+const doggies = {
+    listing: 
+  [
+      {
+          breed: 'Golden Retriever',
+          name: 'Goldie',
+          src: require('../assets/goldie.jpg')
+      },
+      {
+          breed: 'Retriever',
+          name: 'Bobo',
+          src: require('../assets/adorable-animal-baby.jpg')
+      },
+      {
+          breed: 'Pug',
+          name: 'PUBG',
+          src: require('../assets/adorable-animal-bed.jpg')
+      },
+      {
+          breed: 'Golden Retriever',
+          name: 'Rocky',
+          src: require('../assets/adorable-animal.jpg')
+      },
+      {
+          breed: 'Beagle',
+          name: 'Mr. Bagles',
+          src: require('../assets/beagle-canine.jpg')
+      }
+   ] 
+}
+
+export const fetchPuppies = (region, callback) => async (dispatch) => {
+    try {
+       
+        console.log("doggie object:")
+        console.log(doggies)
+
+        dispatch({ type: FETCH_JOBS, payload: doggies });
+     //   console.log(data)
+        callback();
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
 export const likeJob = (job) => {
     return {

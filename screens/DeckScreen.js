@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, Dimensions } from 'react-native';
+import { View, Text, Platform, Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { MapView } from 'expo';
 import { Card, Button, Icon } from 'react-native-elements';
@@ -15,7 +15,38 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class DeckScreen extends Component {
 
-    renderCard(job) {
+    // renderCard(job) {
+    //     const initialRegion = { 
+    //         longitude: -122,
+    //         latitude: 37,
+    //         longitudeDelta: 0.04,
+    //         latitudeDelta: 0.09
+    //     }    
+
+    //     return (
+    //         <Card title={job.title} style={{ flex: 1 }}>
+    //             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    //                 <Image
+    //                     style={{flex:1, width: SCREEN_WIDTH - 50, height: SCREEN_HEIGHT - 300, justifyContent: 'center', alignItems: 'center'}}
+    //                     source={require('../assets/goldie.jpg')}
+                        
+    //                 />
+    //             </View>
+                
+    //             <View style={styles.detailWrapper}>
+    //                 {/* <Text>{job.company.location}</Text> */}
+    //                 <Text>{job.company.name}</Text>
+    //                 <Text>{job.post_date.substr(0,10)}</Text>
+    //             </View>
+    //             <Text>
+    //                 {/* {job.description.replace(/<b>/g,'').replace(/<\/b/g,'')} */}
+    //                 {job.perks}
+    //             </Text>
+    //         </Card>
+    //     );
+    // }
+
+    renderCard(pet) {
         const initialRegion = { 
             longitude: -122,
             latitude: 37,
@@ -24,26 +55,22 @@ class DeckScreen extends Component {
         }    
 
         return (
-            <Card title={job.title}>
-                <View style={{ height: 300 }}>
-                    <MapView
-                        scrollEnabled={false}
-                        style={{flex:1}}
-                        cacheEnabled={ Platform.OS === 'android' ? true : false }
-                        initialRegion={initialRegion}
-                    >
-
-                    </MapView>
+            <Card title={pet.title} style={{ flex: 1 }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                        style={{flex:1, width: SCREEN_WIDTH - 50, height: SCREEN_HEIGHT - 300, justifyContent: 'center', alignItems: 'center'}}
+                        source={pet.src}                        
+                    />
                 </View>
                 
                 <View style={styles.detailWrapper}>
                     {/* <Text>{job.company.location}</Text> */}
-                    <Text>{job.company.name}</Text>
-                    <Text>{job.post_date.substr(0,10)}</Text>
+                    <Text>{pet.name}</Text>
+                    <Text>{pet.breed}</Text>
                 </View>
                 <Text>
                     {/* {job.description.replace(/<b>/g,'').replace(/<\/b/g,'')} */}
-                    {job.perks}
+                    {pet.perks}
                 </Text>
             </Card>
         );
@@ -70,7 +97,7 @@ class DeckScreen extends Component {
             <View style={{ margintop: 15, marginBottom: 15, width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}> 
                 <Swipe 
                     style={{margintop: 10 }}
-                    data={this.props.jobs.listings.listing}
+                    data={this.props.jobs.listing}
                     renderCard={this.renderCard}
                     renderNoMoreCards={this.renderNoMoreCards}
                     onSwipeRight={job => this.props.likeJob(job)}
@@ -84,7 +111,8 @@ class DeckScreen extends Component {
 const styles = {
     detailWrapper: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        flex: 1
     }
 }
 

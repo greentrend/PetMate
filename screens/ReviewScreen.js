@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, ScrollView, Linking } from 'react-native';
+import { View, Text, Platform, ScrollView, Linking, Image, Dimensions} from 'react-native';
 import { Button, Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { MapView } from 'expo';
 
-
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class ReviewScreen extends Component {
 
@@ -65,10 +66,43 @@ class ReviewScreen extends Component {
         });
     }
 
+    renderLikedPets() {
+        
+        return this.props.likedJobs.map((pet, index )=> {
+            const { name, breed, src } = pet;
+            const initialRegion = {
+                longitude: 0,
+                latitude: 0,
+                latitudeDelta: 0.045,
+                longitudeDelta: 0.02
+            }
+
+            return(
+                <Card title={name} key={index}>
+                    <View style={{ height: 200 }}>
+                        <Image
+                            style={{flex:1, width: SCREEN_WIDTH - 50, height: SCREEN_HEIGHT - 300, justifyContent: 'center', alignItems: 'center'}}
+                            source={src}                        
+                        />
+                        <View style={styles.detailWrapper}>
+                            <Text style={styles.italics}>{name}</Text>
+                            <Text style={styles.italics}>{breed}</Text>
+                        </View>
+                        <Button 
+                            title="Contact My Owner!!"
+                            backgroundColor="03A9F4"
+                            onPress={ () => this.props.navigation.navigate('settings') }
+                        />
+                    </View>
+                </Card>
+            );
+        });
+    }
+
     render() {
         return (
             <ScrollView>
-                {this.renderLikedJobs()}
+                {this.renderLikedPets()}
             </ ScrollView>
         )
     }

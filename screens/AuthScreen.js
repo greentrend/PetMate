@@ -14,10 +14,14 @@ import * as actions from '../actions';
 
 class AuthScreen extends Component {
 
-    state = { phone: '', error: '', code: ''};
+    state = { phone: '', error: '', code: '', token: ''};
 
-    componentDidMount() {
-     //   this.props.customLogin();
+    async componentDidMount() {
+       // this.props.customLogin();
+        let token = await AsyncStorage.getItem('custom_token');
+
+        this.setState({ token: token })
+
         this.onAuthComplete(this.props)
     }
 

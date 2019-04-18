@@ -2,11 +2,16 @@ import {
     FETCH_JOBS
 } from '../actions/types';
 
+// const INITIAL_STATE = {
+//     listings: {
+//         listing: []
+//     }
+// };
+
 const INITIAL_STATE = {
-    listings: {
-        listing: []
-    }
+    listing: []
 };
+
 
 export default function(state = INITIAL_STATE, action) {
     switch (action.type) {

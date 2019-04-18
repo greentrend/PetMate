@@ -10,13 +10,18 @@ import {
 
 import AuthScreen from "../screens/AuthScreen";
 
-import WelcomeScreen from '../screens/WelcomeScreen';
+//import WelcomeScreen from '../screens/WelcomeScreen';
+import WelcomeScreen from '../screens/WelcomeScreen2';
+
 import SettingsScreen from "../screens/SettingsScreen";
 import DeckScreen from "../screens/DeckScreen";
 import MapScreen from "../screens/MapScreen";
 import ReviewScreen from "../screens/ReviewScreen";
 import AuthScreenFacebook from "../screens/AuthScreenFacebook";
-import UserProfile from "../screens/UserProfile";
+
+//import UserProfile from "../screens/UserProfile";
+import UserProfile from "../screens/UserProfile2";
+
 import StoreScreen from "../screens/StoreScreen";
 
 import UserForm from '../screens/UserForm';

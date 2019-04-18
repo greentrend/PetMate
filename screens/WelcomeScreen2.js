@@ -1,35 +1,31 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage, Image } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { AppLoading } from 'expo';
 import Slides from '../components/Slides';
 
 const SLIDE_DATA = [
     {
-        text: 'Welcome to PetMate',
-        color: "#FAC484",
-        uri: ""
-         
+        color: "#10324A",
+
     },
     {
-        text: 'Find a match for your Pet!',
-        color: "#FBD786"
-        
+        color: "white"
+
     },
     {
-        text: '1) Set your profile\n2) Find local matches\n3) Set a date to PetMate!',
-        color: "#f7797d"
-    }
-];
+        color: "#10324A"
+
+    }];
+
 
 class WelcomeScreen extends Component {
 
     state = { token: null }
 
     async componentWillMount() {
-        let token = await AsyncStorage.getItem('custom_token');
+        let token = await AsyncStorage.getItem('fb_token');
 
-        
         if (token) {
             this.props.navigation.navigate('map');
             this.setState({ token });
@@ -48,7 +44,9 @@ class WelcomeScreen extends Component {
         }
         return (
             <View>
+
                 <Slides data={SLIDE_DATA} onComplete={this.onSlidesComplete}/>
+
             </View>
         )
     }
